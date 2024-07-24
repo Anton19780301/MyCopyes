@@ -22,6 +22,6 @@ public class Books {
     @Column(name = "books")
     String name;
 
-    @OneToMany(mappedBy = "books")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "books")
     Set<AuthorsBooks> books;
 }

@@ -22,7 +22,7 @@ public class Authors {
     @Column(name = "authors")
     String name;
 
-    @OneToMany(mappedBy = "authors")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authors")
     Set<AuthorsBooks> authors;
 
 }
