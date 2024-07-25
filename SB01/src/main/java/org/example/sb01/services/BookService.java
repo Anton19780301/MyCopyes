@@ -3,6 +3,7 @@ package org.example.sb01.services;
 
 import lombok.AllArgsConstructor;
 import org.example.sb01.entity.Books;
+import org.example.sb01.exeptions.NoBookExeption;
 import org.example.sb01.models.BookModel;
 import org.example.sb01.repositories.BooksRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +28,24 @@ public class BookService {
         }
         return bookModels;
     }
+
     public BookModel getBook(Long bookID){
         Books book = bookRepo.findById(bookID).get();
         return BookModel.toModel(book);
     }
 
-    public void addBook(Books book){
-        bookRepo.save(book);
+    public void addBook(Books book) throws NoBookExeption {
+        if (book != null) bookRepo.save(book);
+        else throw new NoBookExeption("Не указана книга");
     }
+
     public void updateBook(Books book){
         Optional<Books> bookOptional = bookRepo.findById(book.getId());
         if(bookOptional.isPresent()){
             bookRepo.save(book);
         }
     }
+
     public void deleteBook(Long bookID){
         bookRepo.deleteById(bookID);
     }

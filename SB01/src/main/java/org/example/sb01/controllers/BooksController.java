@@ -2,8 +2,10 @@ package org.example.sb01.controllers;
 
 import lombok.AllArgsConstructor;
 import org.example.sb01.entity.Books;
+import org.example.sb01.exeptions.NoBookExeption;
 import org.example.sb01.models.BookModel;
 import org.example.sb01.services.BookService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +30,17 @@ public class BooksController {
 
     //post - создать инфу
     @PostMapping(path = "add")
-    public void addBook(@RequestBody Books book){
-        bookService.addBook(book);
+    public ResponseEntity addBook(@RequestBody Books book){
+        try {
+            bookService.addBook(book);
+            return ResponseEntity.ok("Книга успешно добавлена");
+        }
+        catch (NoBookExeption e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     //put - апдейт
