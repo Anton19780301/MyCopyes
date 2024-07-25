@@ -1,0 +1,48 @@
+package org.example.sb01.services;
+
+
+import lombok.AllArgsConstructor;
+import org.example.sb01.entity.Books;
+import org.example.sb01.models.BookModel;
+import org.example.sb01.repositories.BooksRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class BookService {
+
+    private final BooksRepo bookRepo;
+
+    public List<BookModel> getAllBooks(){
+        List<Books> books = bookRepo.findAll();
+        List<BookModel> bookModels = new ArrayList<>();
+        for (Books book : books) {
+            bookModels.add(BookModel.toModel(book));
+        }
+        return bookModels;
+    }
+    public BookModel getBook(Long bookID){
+        Books book = bookRepo.findById(bookID).get();
+        return BookModel.toModel(book);
+    }
+
+    public void addBook(Books book){
+        bookRepo.save(book);
+    }
+    public void updateBook(Books book){
+        Optional<Books> bookOptional = bookRepo.findById(book.getId());
+        if(bookOptional.isPresent()){
+            bookRepo.save(book);
+        }
+    }
+    public void deleteBook(Long bookID){
+        bookRepo.deleteById(bookID);
+    }
+
+}

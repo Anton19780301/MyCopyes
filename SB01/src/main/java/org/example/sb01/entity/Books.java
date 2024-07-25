@@ -18,10 +18,11 @@ public class Books {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
+    Long id;
     @Column(name = "books")
     String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "books")
     Set<AuthorsBooks> books;
+
 }
