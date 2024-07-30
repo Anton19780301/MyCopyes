@@ -39,15 +39,20 @@ public class BookService {
         else throw new NoBookExeption("Не указана книга");
     }
 
-    public void updateBook(Books book){
+    public void updateBook(Books book) throws NoBookExeption {
         Optional<Books> bookOptional = bookRepo.findById(book.getId());
         if(bookOptional.isPresent()){
             bookRepo.save(book);
         }
+        else throw new NoBookExeption("Не найдена книга");
     }
 
-    public void deleteBook(Long bookID){
-        bookRepo.deleteById(bookID);
+    public void deleteBook(Long bookID) throws NoBookExeption {
+        Optional<Books> bookOptional = bookRepo.findById(bookID);
+        if(bookOptional.isPresent()){
+            bookRepo.deleteById(bookID);
+        }
+        else throw new NoBookExeption("Не найдена книга");
     }
 
 }

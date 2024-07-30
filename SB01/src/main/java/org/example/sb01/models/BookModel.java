@@ -12,6 +12,4 @@ public class BookModel {
         model.title = books.getName();
         return model;
     }
-
-
 }

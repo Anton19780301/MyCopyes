@@ -45,13 +45,30 @@ public class BooksController {
 
     //put - апдейт
     @PutMapping(path = "path")
-    public void updateBook(@RequestBody Books book){
-        bookService.updateBook(book);
+    public ResponseEntity updateBook(@RequestBody Books book){
+        try {
+            bookService.updateBook(book);
+            return ResponseEntity.ok("Книга успешно обновлена");
+        }
+        catch (NoBookExeption e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping(path = "delete/{bookID}")
-    public void deleteBook(@PathVariable("bookID") Long bookID){
-        bookService.deleteBook(bookID);
+    public ResponseEntity deleteBook(@PathVariable("bookID") Long bookID){
+        try {
+            bookService.deleteBook(bookID);
+            return ResponseEntity.ok("Книга успешно удалена");
+        }
+        catch (NoBookExeption e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 }

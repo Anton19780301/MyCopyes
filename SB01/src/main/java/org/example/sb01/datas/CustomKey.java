@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/*
+* возможно не понадобиться
+* */
+
 @Getter
 @Setter
 @Embeddable
