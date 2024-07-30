@@ -19,10 +19,15 @@ public class Authors {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     @Column(name = "authors")
     String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authors")
     Set<AuthorsBooks> authors;
+
+    public Authors(String name) {
+        this.name = name;
+    }
 
 }

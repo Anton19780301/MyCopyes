@@ -25,4 +25,6 @@ public class Books {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "books")
     Set<AuthorsBooks> books;
 
+    public Books(String name) {this.name = name;}
+
 }

@@ -11,7 +11,4 @@ public class AuthorsModel {
         return model;
     }
 
-
-
-
 }

@@ -20,12 +20,14 @@ public class AuthorsBooks {
     @Id
     Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author")
     Authors authors;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book")
     Books books;
+
+
 
 }
