@@ -11,10 +11,11 @@ public class ABModel {
 
     public static ABModel toModel(AuthorsBooks ab) {
         ABModel model = new ABModel();
-        Authors author = ab.getAuthors();
-        Books book = ab.getBooks();
-        model.name = author.getName();
-        model.title = book.getName();
+//        Authors authors =
+//        Long authorID = ab.getAuthorsID()
+//        Long book = ab.getBooksID()
+        model.name = "name";
+        model.title = "title";
         return model;
     }
 

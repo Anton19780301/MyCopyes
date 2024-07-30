@@ -1,14 +1,8 @@
+
 package org.example.sb01.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.example.sb01.datas.CustomKey;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.awt.print.Book;
+import lombok.*;
 
 @Getter
 @Setter
@@ -17,17 +11,18 @@ import java.awt.print.Book;
 @Entity
 @Table(name = "AuthorsBooks")
 public class AuthorsBooks {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author")
+    @NonNull
     Authors authors;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "book")
     Books books;
-
-
 
 }

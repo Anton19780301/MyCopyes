@@ -40,28 +40,29 @@ public class EventService {
     public CommandLineRunner commandLineRunner(BooksRepo booksRepo,
                                                AuthorsRepo authorsRepo,
                                                ABRepo abRepo) {
+        Books b1 = new Books( "Bible");
+        Books b2 = new Books("Quran");
+        Books b3 = new Books("Avesta");
+
+        Authors a1 = new Authors( "Anton");
+        Authors a2 = new Authors( "Zaratushtra");
+        Authors a3 = new Authors( "Muhhamad");
+        Authors a4 = new Authors( "Moses");
+
         return args -> {
-            booksRepo.saveAll(List.of(
-                    new Books( "Bible"),
-                    new Books("Quran"),
-                    new Books("Avesta")
+            booksRepo.saveAll(List.of (b1, b2, b3));
+
+            authorsRepo.saveAll(List.of(a1, a2, a3, a4));
+
+            abRepo.saveAll(List.of(
+                    new AuthorsBooks(new Long(0),a1,b1),
+                    new AuthorsBooks(new Long(1),a2,b1),
+                    new AuthorsBooks(new Long(2),a2,b1),
+                    new AuthorsBooks(new Long(3),a4,b2),
+                    new AuthorsBooks(new Long(4),a3,b3),
+                    new AuthorsBooks(new Long(5),a3,b3)
                 )
             );
-
-            authorsRepo.saveAll(List.of(
-                    new Authors( "Anton"),
-                    new Authors( "Zaratushtra"),
-                    new Authors( "Muhhamad"),
-                    new Authors( "Moses")
-                )
-            );
-
-//            abRepo.saveAll(List.of(
-//                    new AuthorsBooks(),
-//                    new AuthorsBooks(),
-//                    new AuthorsBooks()
-//                )
-//            );
         };
     }
 
