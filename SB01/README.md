@@ -6,7 +6,12 @@
 пример файла для PostgresSQL
 
 spring.application.name=SB01
+
 spring.jpa.hibernate.ddl-auto=create-drop
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+
 spring.datasource.username=postgres
+
 spring.datasource.password=postgres
+
