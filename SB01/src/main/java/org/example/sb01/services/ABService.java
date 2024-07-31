@@ -15,17 +15,16 @@ import java.util.Optional;
 @AllArgsConstructor
 
 public class ABService {
-
     private final ABRepo abRepo;
 
     public List<ABModel> getAllAB(){
         List<AuthorsBooks> listAB = abRepo.findAll();
-        List<ABModel> authorModels = new ArrayList<>();
+        List<ABModel> abModels = new ArrayList<>();
         for (AuthorsBooks ab : listAB) {
-            authorModels.add(ABModel.toModel(ab));
+            abModels.add(ABModel.toModel(ab));
         }
-        return authorModels;
-
+        System.out.println(abModels);
+        return abModels;
     }
 
     public ABModel getAB(Long abID){

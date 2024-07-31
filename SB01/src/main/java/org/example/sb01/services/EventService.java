@@ -55,12 +55,12 @@ public class EventService {
             authorsRepo.saveAll(List.of(a1, a2, a3, a4));
 
             abRepo.saveAll(List.of(
-                    new AuthorsBooks(new Long(0),a1,b1),
-                    new AuthorsBooks(new Long(1),a2,b1),
-                    new AuthorsBooks(new Long(2),a2,b1),
-                    new AuthorsBooks(new Long(3),a4,b2),
-                    new AuthorsBooks(new Long(4),a3,b3),
-                    new AuthorsBooks(new Long(5),a3,b3)
+                    new AuthorsBooks(new Long(1),a1,b1),
+                    new AuthorsBooks(new Long(2),a4,b1),
+                    new AuthorsBooks(new Long(3),a1,b2),
+                    new AuthorsBooks(new Long(4),a3,b2),
+                    new AuthorsBooks(new Long(5),a1,b3),
+                    new AuthorsBooks(new Long(6),a2,b3)
                 )
             );
         };
