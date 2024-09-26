@@ -23,6 +23,11 @@ qt_add_qml_module(appGame02
         SOURCES customdatamodel.h customdatamodel.cpp
 )
 
+qt_add_resources(appGame02 "Images"
+    PREFIX "/Images"
+    FILES Images/dice.png Images/bomb.png
+)
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.

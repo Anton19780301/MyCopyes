@@ -14,11 +14,18 @@ public:
 
     void addObjectList(QObjectList *list){_dataZ = list;}
     void restartGame(); //сформируем новое поле с новыми параметрами
-    Q_PROPERTY(QColor statecolor READ statecolor WRITE setStatecolor NOTIFY statecolorChanged FINAL)
-
+    Q_PROPERTY(QColor statecolor READ statecolor WRITE setStatecolor NOTIFY statecolorChanged)
+    Q_PROPERTY(int xmax READ xmax WRITE setXmax NOTIFY xmaxChanged)
+    Q_PROPERTY(int ymax READ ymax WRITE setYmax NOTIFY ymaxChanged)
 
     QColor statecolor() const;
     void setStatecolor(const QColor &newStatecolor);
+
+    int xmax() const;
+    void setXmax(int newXmax);
+
+    int ymax() const;
+    void setYmax(int newYmax);
 
 public slots:
     void click(int x, int y); //проверим что там и если что откроем соседние клетки
@@ -28,13 +35,14 @@ public slots:
 
 signals:
     void statecolorChanged();
+    void xmaxChanged();
+    void ymaxChanged();
 
 private:
-    int _x = 10;
-    int _y = 10;
 
     QObjectList *_dataZ = new QObjectList();
-    CustomDataModel *bombCount[10][10] = {};
+    CustomDataModel *bombCount[30][30] = {};
+    QVector<QVector<CustomDataModel>> *_bombCount = {};
 
     void checkCells(int x, int y); //проверка необходимости открытия соседних клеток
     void updateModel(); //обновляет модель
@@ -43,6 +51,8 @@ private:
     void lose();// выполняется если игра проиграна
 
     QColor m_statecolor = Qt::red;
+    int m_xmax = 30;
+    int m_ymax = 30;
 };
 
 #endif // GAMECALCULATE_H

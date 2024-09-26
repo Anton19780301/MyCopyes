@@ -18,7 +18,6 @@ Window {
             anchors.top: parent.top
             anchors.topMargin: 10
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.horizontalCenterOffset: -50
             radius: 40
             border{
                 color: "black"
@@ -38,7 +37,6 @@ Window {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 50
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.horizontalCenterOffset: -50
         radius: 10
         border{
             color: "black"

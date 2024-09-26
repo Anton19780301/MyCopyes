@@ -8,11 +8,11 @@ class CustomDataModel : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged)
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(bool visible READ visible WRITE setVisible NOTIFY visibleChanged) //видимость маски
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged) //содержимое (момба или маркер)
     Q_PROPERTY(int xID READ xID WRITE setXID NOTIFY xIDChanged)
     Q_PROPERTY(int yID READ yID WRITE setYID NOTIFY yIDChanged)
-    Q_PROPERTY(bool flagMarker READ flagMarker WRITE setFlagMarker NOTIFY flagMarkerChanged)
+    Q_PROPERTY(bool flagMarker READ flagMarker WRITE setFlagMarker NOTIFY flagMarkerChanged) //установленность флага
 
 public:
     explicit CustomDataModel();

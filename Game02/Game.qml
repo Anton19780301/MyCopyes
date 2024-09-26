@@ -3,14 +3,17 @@ import Game02
 
 Item {
     id: root
-    width: 600
-    height: 600
+    width: 500
+    height: 500
     anchors.centerIn: parent
+
+    property int xMAX: gc.xmax
+    property int yMAX: gc.ymax
 
     Grid{
         anchors.fill: parent
-        columns: 10
-        rows: 10
+        columns: xMAX
+        rows: yMAX
         Repeater{
             model: dataZ
             Rectangle{
@@ -22,14 +25,22 @@ Item {
                 property bool flagMarker: modelData.flagMarker
 
                 id: rectusID
-                width: 50
-                height: 50
+                width: 500/xMAX
+                height: 500/yMAX
                 color: "white"
-                radius: 5
+                //radius: 5
                 border{
-                    color: "black"
-                    width: 2
+                    color: "darkgray"
+                    width: 1
                 }
+
+                //сделать управляемым моделью
+                // Image{
+                //     id: bombID
+                //     visible: rectusVisible
+                //     anchors.fill: parent
+                //     source: "qrc://Game02/Images/Images/bomb.png"
+                // }
 
                 Text{
                     id: textID
@@ -40,34 +51,38 @@ Item {
                 Rectangle{
                     id: rectusMaskID
                     anchors.centerIn: parent
-                    width: 50
-                    height: 50
+                    width: 500/xMAX
+                    height: 500/yMAX
                     color: rectusColor
-                    radius: 5
+                    radius: 2
                     visible: rectusVisible
                     border{
                         color: "black"
-                        width: 2
+                        width: 1
+                    }
+                    Image{
+                        anchors.fill: parent
+                        source: "qrc://Game02/Images/Images/dice.png"
                     }
 
                     Rectangle{
                         anchors.top: parent.top
-                        anchors.topMargin: 10
+                        anchors.topMargin: 500/yMAX/5
                         anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        width: 5
-                        height: 30
-                        color: "grey"
+                        anchors.leftMargin: 500/xMAX/5
+                        width: 500/xMAX/10
+                        height: 500/yMAX/1.5
+                        color: "black"
                         visible: flagMarker
                     }
                     Rectangle{
                         id: flagMarkerID
                         anchors.top: parent.top
-                        anchors.topMargin: 10
+                        anchors.topMargin: 500/yMAX/5
                         anchors.left: parent.left
-                        anchors.leftMargin: 15
-                        width: 25
-                        height: 20
+                        anchors.leftMargin: 500/xMAX/5
+                        width: 500/xMAX/1.7
+                        height: 500/yMAX/2.5
                         color: "red"
                         visible: flagMarker
                     }
