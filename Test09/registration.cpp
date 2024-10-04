@@ -8,12 +8,12 @@
 #include <QQmlContext>
 #include <QTimer>
 
-Registration::Registration(QQmlApplicationEngine *engine)
+Registration::Registration(QQmlApplicationEngine &engine)
 {
     pa = QSharedPointer<ProgrammActions>::create();
     QVector<WordsData*> *dataZ = new QVector<WordsData*>();
     pa->addObjectList(dataZ);
 
-    engine->rootContext()->setContextProperty("dataZ",QVariant::fromValue(*dataZ));
-    engine->rootContext()->setContextProperty("pa",pa.get());
+    engine.rootContext()->setContextProperty("dataZ",QVariant::fromValue(*dataZ));
+    engine.rootContext()->setContextProperty("pa",pa.get());
 }

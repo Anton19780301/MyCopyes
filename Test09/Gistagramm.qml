@@ -15,7 +15,7 @@ Item {
 
                 id: rectangleID
                 visible: true
-                color: Qt.rgba(Math.random(),Math.random(),Math.random(),1) //"#2980b9"
+                color: Qt.rgba(Math.random(),Math.random(),Math.random(),1)
                 width : widthP * countP/pa.len
                 height: heightP
                 radius: heightP / 4
@@ -23,9 +23,6 @@ Item {
                     id: textWordID;
                     font.pixelSize : heightP / 1.8
                     text: wordP + " : " + countP
-                }
-                Component.onCompleted: {
-                    //if (modelData.word === "" && modelData.count === 0) textWordID.text = ""
                 }
             }
         }

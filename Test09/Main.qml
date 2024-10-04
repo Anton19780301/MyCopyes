@@ -12,6 +12,7 @@ Window {
     maximumWidth : 600
     minimumHeight : 80
     minimumWidth : 60
+    color: "#e8fff8"
 
     visible: true
     title: qsTr("Text analiser")

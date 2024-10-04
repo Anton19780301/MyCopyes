@@ -1,8 +1,26 @@
 #ifndef PROGRAMMACTIONS_H
 #define PROGRAMMACTIONS_H
 
-/*
-    действия внутри QML
+//! действия с QML
+/*!
+@brief действия с QML
+    \param[ProgrammActions] - конструктор класса
+    \param[namePB] - свйство, надпись на кнопке Пауза
+    \param[len] - свойство, длинна элемента гистограммы
+    \param[maxlenght] - свойство, максимальный размер файла анализируемого файла, передаётся в QML
+    \param[curentbyte] - свойство, текущий байт анализируемого файла, передаётся в QML
+    \param[pbtext] - свойство, вычисляемый текст для ProgressBar в QML
+    \param[openFile] - метод сообщает классу FileCalculate имя файла для анализа
+    \param[startCalculate] - начала анализа выбранного файла
+    \param[pauseCalculate] - пауза
+    \param[createThread] - метод устанавливает первоначальное состояние программы, выполняется при первом запуске и отмене анализа
+    \param[cancelCalculate] - метод отменяет процесс вычисления, программа возвращается в первоначальное состояние
+    \param[reiting] - сетер _reiting
+    \param[setReiting] - публичный слот, принимает значения из FileCalculate
+    \param[_timer] - таймер для разблокировки потока FileCalculate. Это часть механизма замедления обработки.
+    \param[_reiting] - список рейтинговых слов, получен из FileCalculate. Основа модели данных в гистограмме
+    \param[DELAY_TIME] - задержка обработки файла в микросекундах, уменьшите это значение до 1 и задержки почти не будет
+    \param[RAITING_COUNT] - размер рейтинговой таблицы, менять не желательно. Увеличение знгачения 15 может вызвать поломку
 */
 
 #include "wordsdata.h"
@@ -56,12 +74,11 @@ signals:
     void lenChanged();
     void maxlenghtChanged();
     void curentbyteChanged();
-
     void pbtextChanged();
 
 private:
-    const int DELAY_TIME = 150; //задержка обработки файла
-    const int RAITING_COUNT = 15; //размер рейтинговой таблицы
+    const int DELAY_TIME = 150;
+    const int RAITING_COUNT = 15;
 
     void createThread();
 

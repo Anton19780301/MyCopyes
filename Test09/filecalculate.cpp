@@ -134,13 +134,11 @@ bool FileCalculate::predicatListWS(const QString &a)
 
 void FileCalculate::cancelCalculate()
 {
-    //TODO : возможно стоит просто удалять экземпляр этого класса
     _fileName = "";
 }
 
 void FileCalculate::pause(bool pause)
 {
     _pause = pause;
-    qInfo() << "_pause fc " << _pause;
 }
 

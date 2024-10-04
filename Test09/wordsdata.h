@@ -1,6 +1,16 @@
 #ifndef WORDSDATA_H
 #define WORDSDATA_H
 
+//! файл хранит информацию о позиции слова в рейтинге
+/*!
+@brief файл хранит информацию о позиции слова в рейтинге. В нем только два поля,
+       и их гетеры и сетеры, а так же сигналы уведомления.
+    \param[WordsData] - конструктор класса без параметров
+    \param[WordsData] - конструктор класса с параметрами. Сразу инициализирует и слова ипозицию в рейтинге.
+    \param[word] - слово из рейтинга
+    \param[count] - сколько раз слово найдено в тексте
+*/
+
 #include <QObject>
 
 class WordsData : public QObject
@@ -23,8 +33,8 @@ signals:
     void countChanged();
 
 private:
-    QString m_word;
-    int m_count;
+    QString m_word = "";
+    int m_count = 0;
 };
 
 Q_DECLARE_METATYPE(WordsData)
