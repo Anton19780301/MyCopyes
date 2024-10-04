@@ -24,7 +24,6 @@ FileCalculate::FileCalculate(QWaitCondition *wc, QMutex *mx) :
 void FileCalculate::addFile(QString fileName)
 {
     _fileName = fileName;
-    startCalculate();
 }
 
 void FileCalculate::startCalculate()
@@ -37,10 +36,12 @@ void FileCalculate::startCalculate()
         if (!_inputFile.isOpen())
             return;
 
+        _fileSize = _inputFile.size();
+
         QTextStream stream(&_inputFile);
         stream.setEncoding(QStringConverter::System);
 
-        for (QString line = stream.readLine();
+        for (QString line = stream.readLine(); //тут можно поменять кодировку
              !line.isNull();
              line = stream.readLine())
         {
@@ -48,40 +49,38 @@ void FileCalculate::startCalculate()
             calculateWords(line);
             _wc->wait(_mx);
         };
+        //анализ файла завершен
+        _curuentByte = _fileSize;
+        maxFileSizeChanged(_fileSize);
+        curentFilePosChanged(_curuentByte);
+
     }
 }
 
 void FileCalculate::calculateWords(QString line)
 {
-    //тормознем поток для наглядности, если надо
-    //QThread::sleep(std::chrono::seconds{2});
-    //qInfo() << line;
+    _curuentByte += line.length();
     bool wordFinded = false;
-    line.replace(".", " ");
-    line.replace(",", " ");
-    line.replace("!", " ");
-    line.replace(":", " ");
-    line.replace("-", " ");
-    line.replace(" -", " ");
-    line.replace("[", " ");
-    line.replace("]", " ");
-    line.replace("(", " ");
-    line.replace(")", " ");
-    line.replace("  ", " ");
-    line.replace("   ", " ");
+    qDebug() << "QString " << line;
+    removeCharacters(line); //подчистим от ненужных символов
     QStringList lineSplit  = line.split(" ");
+    lineSplit.removeIf(predicatListWS); //удалим слова пробелы итп
+
+    qDebug() << "QStringList " << lineSplit;
+
+
     for (auto &newWord: lineSplit)
     {
         wordFinded = false;
         for (auto &oldWord: _wordsData)
         {
-            if (oldWord->word() == newWord && newWord != "") {
+            if (oldWord->word() == newWord) {
                 oldWord->setCount(oldWord->count() + 1);
                 wordFinded = true;
                 break;
             }
         }
-        if (!wordFinded && newWord != "")
+        if (!wordFinded)
         {
             WordsData *wordForInsert = new WordsData(newWord,1);
             wordForInsert->setParent(this);
@@ -102,12 +101,35 @@ void FileCalculate::calculateWords(QString line)
     }
 
     emit raitingRecalculate(_reiting);
+    emit maxFileSizeChanged(_fileSize);
+    emit curentFilePosChanged(_curuentByte);
+}
 
+void FileCalculate::removeCharacters(QString &word)
+{
+    for (const auto &as: remList)
+    {
+        word.replace(as," ");
+    }
 }
 
 bool FileCalculate::comparatorListWS(WordsData *a, WordsData *b)
 {
     return a->count() > b->count();
+}
+
+bool FileCalculate::predicatListWS(const QString &a)
+{
+    bool forReturn = false;
+    for (const auto &del: delList)
+    {
+        if (a == del)
+        {
+            forReturn = true;
+            break;
+        }
+    }
+    return forReturn;
 }
 
 void FileCalculate::cancelCalculate()

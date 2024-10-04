@@ -18,7 +18,7 @@ qt_add_qml_module(appTest09
     QML_FILES
         Main.qml
         QML_FILES Gistagramm.qml
-        QML_FILES CoolProgressBar.qml
+        QML_FILES
         SOURCES programmactions.h programmactions.cpp
         SOURCES registration.h registration.cpp
         SOURCES filecalculate.h filecalculate.cpp

@@ -9,20 +9,7 @@
 
 ProgrammActions::ProgrammActions()
 {
-    _mx = new QMutex();
-    _wc = new QWaitCondition();
-    _fc = new FileCalculate(_wc,_mx);
-    _calculateThread = new QThread(this);
-    _fc->moveToThread(_calculateThread);
-    _calculateThread->start();
-
-    _timer = new QTimer(this);
-    QObject::connect(_timer,&QTimer::timeout,[this](){
-        if (!_pause) _wc->wakeAll();
-    });
-    _timer->start(DELAY_TIME);
-
-    QObject::connect(_fc,&FileCalculate::raitingRecalculate,this,&ProgrammActions::setReiting);
+    createThread();
 }
 
 ProgrammActions::~ProgrammActions()
@@ -40,7 +27,7 @@ void ProgrammActions::openFile(QString fileName)
 
 void ProgrammActions::startCalculate()
 {
-    qInfo() << "start";
+    QMetaObject::invokeMethod(_fc,"startCalculate");
 }
 
 void ProgrammActions::pauseCalculate()
@@ -61,6 +48,14 @@ void ProgrammActions::pauseCalculate()
 void ProgrammActions::cancelCalculate()
 {
     qInfo() << "cancel";
+    QMetaObject::invokeMethod(_fc,"cancelCalculate");
+    _calculateThread->terminate();
+    for(int x = 0;x < RAITING_COUNT;++x)
+    {
+        _reiting->at(x)->setWord("");
+        _reiting->at(x)->setCount(0);
+    }
+
 }
 
 QString ProgrammActions::namePB() const
@@ -80,7 +75,7 @@ void ProgrammActions::addObjectList(QVector<WordsData *> *reiting)
 {
     _reiting = reiting;
     _reiting->clear();
-    for(int x = 0;x < 15;++x)
+    for(int x = 0;x < RAITING_COUNT;++x)
     {
         WordsData *wordForInsert = new WordsData("" , 0);
         wordForInsert->setParent(this);
@@ -88,22 +83,15 @@ void ProgrammActions::addObjectList(QVector<WordsData *> *reiting)
     }
 }
 
-void ProgrammActions::restartGame()
-{
-
-}
-
 void ProgrammActions::setReiting(QVector<WordsData *> *reiting)
 {
-    qDebug() << "----------------------------";
     for (int x = 0;x < reiting->count();++x)
     {
-        qDebug() << reiting->at(x)->word()  << reiting->at(x)->count();
+        qDebug() << _reiting->at(x)->word();
         _reiting->at(x)->setWord(reiting->at(x)->word());
         _reiting->at(x)->setCount(reiting->at(x)->count());
     }
     if (reiting->count() > 0) setLen(reiting->at(0)->count());
-    qDebug() << "----------------------------";
 }
 
 int ProgrammActions::len() const
@@ -117,4 +105,81 @@ void ProgrammActions::setLen(int newLen)
         return;
     m_len = newLen;
     emit lenChanged();
+}
+
+int ProgrammActions::maxlenght() const
+{
+    return m_maxlenght;
+}
+
+void ProgrammActions::setMaxlenght(int newMaxlenght)
+{
+    if (m_maxlenght == newMaxlenght)
+        return;
+    m_maxlenght = newMaxlenght;
+    emit maxlenghtChanged();
+    if (m_maxlenght > 0)
+    {
+        int as = (int)((double)m_curentbyte/(double)m_maxlenght * 100.);
+        setPbtext(QString::number(as) + "%");
+    }
+}
+
+int ProgrammActions::curentbyte() const
+{
+    return m_curentbyte;
+}
+
+void ProgrammActions::setCurentbyte(int newCurentbyte)
+{
+    if (m_curentbyte == newCurentbyte)
+        return;
+    m_curentbyte = newCurentbyte;
+    emit curentbyteChanged();
+    if (m_maxlenght > 0)
+    {
+        int as = (int)((double)m_curentbyte/(double)m_maxlenght * 100.);
+        setPbtext(QString::number(as) + "%");
+    }
+}
+
+void ProgrammActions::createThread()
+{
+    _mx = new QMutex();
+    _wc = new QWaitCondition();
+    _fc = new FileCalculate(_wc,_mx);
+    _calculateThread = new QThread(this);
+    _fc->moveToThread(_calculateThread);
+    _calculateThread->start();
+
+    _timer = new QTimer(this);
+    QObject::connect(_timer,&QTimer::timeout,[this](){
+        if (!_pause) _wc->wakeAll();
+    });
+    _timer->start(DELAY_TIME);
+
+    QObject::connect(_fc,&FileCalculate::raitingRecalculate,this,&ProgrammActions::setReiting);
+    QObject::connect(_fc,&FileCalculate::maxFileSizeChanged,this,&ProgrammActions::setMaxlenght);
+    QObject::connect(_fc,&FileCalculate::curentFilePosChanged,this,&ProgrammActions::setCurentbyte);
+
+    QObject::connect(_calculateThread,&QThread::finished,[this]()
+                     {
+                         qDebug() << "finished";
+                         createThread();
+                     });
+
+
+}
+
+QString ProgrammActions::pbtext() const
+{
+    return m_pbtext;
+}
+
+void ProgrammActions::setPbtext(const QString &newPbtext)
+{
+    if (m_pbtext == newPbtext)
+        return;
+    m_pbtext = newPbtext;
+    emit pbtextChanged();
 }

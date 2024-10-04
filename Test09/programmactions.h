@@ -22,7 +22,10 @@ public:
     ~ProgrammActions();
 
     Q_PROPERTY(QString namePB READ namePB WRITE setNamePB NOTIFY namePBChanged)
-    Q_PROPERTY(int len READ len WRITE setLen NOTIFY lenChanged FINAL)
+    Q_PROPERTY(int len READ len WRITE setLen NOTIFY lenChanged) //длинна элемента гистограммы
+    Q_PROPERTY(int maxlenght READ maxlenght WRITE setMaxlenght NOTIFY maxlenghtChanged)
+    Q_PROPERTY(int curentbyte READ curentbyte WRITE setCurentbyte NOTIFY curentbyteChanged)
+    Q_PROPERTY(QString pbtext READ pbtext WRITE setPbtext NOTIFY pbtextChanged)
 
     Q_INVOKABLE void openFile(QString fileName);
     Q_INVOKABLE void startCalculate();
@@ -32,23 +35,35 @@ public:
     QString namePB() const;
     void setNamePB(const QString &newNamePB);
     void addObjectList(QVector<WordsData*> *reiting);
-    void restartGame();
 
     QVector<WordsData*> *reiting() {return _reiting;}
 
     int len() const;
     void setLen(int newLen);
+    int maxlenght() const;
+    int curentbyte() const;
 
-public slots:
+    QString pbtext() const;
+    void setPbtext(const QString &newPbtext);
+
+private slots:
     void setReiting(QVector<WordsData*> *reiting);
+    void setMaxlenght(int newMaxlenght);
+    void setCurentbyte(int newCurentbyte);
 
 signals:
     void namePBChanged();
-
     void lenChanged();
+    void maxlenghtChanged();
+    void curentbyteChanged();
+
+    void pbtextChanged();
 
 private:
-    const int DELAY_TIME = 1000; //задержка обработки файла
+    const int DELAY_TIME = 150; //задержка обработки файла
+    const int RAITING_COUNT = 15; //размер рейтинговой таблицы
+
+    void createThread();
 
     FileCalculate *_fc = nullptr;
     QThread *_calculateThread = nullptr;
@@ -61,6 +76,9 @@ private:
 
     QVector<WordsData*> *_reiting = new QVector<WordsData*>();
     int m_len = 0;
+    int m_maxlenght = 0;
+    int m_curentbyte = 0;
+    QString m_pbtext = "";
 };
 
 #endif // PROGRAMMACTIONS_H

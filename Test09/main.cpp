@@ -4,7 +4,6 @@
 
 #include <programmactions.h>
 #include <QQmlContext>
-#include <QTimer>
 
 int main(int argc, char *argv[])
 {
@@ -16,16 +15,9 @@ int main(int argc, char *argv[])
     ProgrammActions *pa = new ProgrammActions();
     QVector<WordsData*> *dataZ = new QVector<WordsData*>();
     pa->addObjectList(dataZ);
-    pa->restartGame();
-
-    QTimer *_timer = new QTimer();
-    QObject::connect(_timer,&QTimer::timeout,[&pa](){pa->restartGame();});
-    _timer->start(1000);
 
     engine.rootContext()->setContextProperty("dataZ",QVariant::fromValue(*dataZ));
     engine.rootContext()->setContextProperty("pa",pa);
-
-
 
     QObject::connect(
         &engine,
