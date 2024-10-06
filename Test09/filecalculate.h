@@ -36,6 +36,7 @@
     \param[_curuentByte] - содержит текущую позицию в файле, используется для отображения информации в прогресс баре
     \param[_wordsData] - содержит абсолютный рейтинг по всем найденным в тексте словам
     \param[_reiting] - содержит срез из первых 15 слов в рейтинге
+    \param[RAITING_COUNT] - количество записей в рейтинге, менять не желательно.
 */
 
 #include <QObject>
@@ -65,6 +66,8 @@ public slots:
     void startCalculate();
 
 private:
+    const int RAITING_COUNT = 15;
+
     void calculateWords(QString line);
     void removeCharacters(QString &word);
     static bool comparatorListWS(WordsData *a, WordsData *b);

@@ -153,7 +153,7 @@ void ProgrammActions::createThread()
     _calculateThread->start();
 
     _timer = new QTimer(this);
-    QObject::connect(_timer,&QTimer::timeout,[this](){
+    QObject::connect(_timer,&QTimer::timeout,this,[this](){
         if (!_pause) _wc->wakeAll();
     });
     _timer->start(DELAY_TIME);
@@ -162,7 +162,7 @@ void ProgrammActions::createThread()
     QObject::connect(_fc,&FileCalculate::maxFileSizeChanged,this,&ProgrammActions::setMaxlenght);
     QObject::connect(_fc,&FileCalculate::curentFilePosChanged,this,&ProgrammActions::setCurentbyte);
 
-    QObject::connect(_calculateThread,&QThread::finished,[this]()
+    QObject::connect(_calculateThread,&QThread::finished,this,[this]()
                      {
                          qDebug() << "finished";
                          createThread();

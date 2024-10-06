@@ -13,7 +13,7 @@
 FileCalculate::FileCalculate(QWaitCondition *wc, QMutex *mx) :
     _mx(mx), _wc(wc)
 {
-    for (int a = 0 ; a < 15 ; ++a)
+    for (int a = 0 ; a < RAITING_COUNT ; ++a)
     {
         WordsData *wordForInsert = new WordsData();
         wordForInsert->setParent(this);
@@ -51,8 +51,8 @@ void FileCalculate::startCalculate()
         };
         //анализ файла завершен
         _curuentByte = _fileSize;
-        maxFileSizeChanged(_fileSize);
-        curentFilePosChanged(_curuentByte);
+        emit maxFileSizeChanged(_fileSize);
+        emit curentFilePosChanged(_curuentByte);
 
     }
 }
@@ -92,9 +92,9 @@ void FileCalculate::calculateWords(QString line)
     std::stable_sort(_wordsData.begin(),_wordsData.end(),comparatorListWS);
 
     _reiting->clear();
-    if (_wordsData.count() > 15)
+    if (_wordsData.count() > RAITING_COUNT)
     {
-        for (size_t i = 0;i<15;++i)
+        for (size_t i = 0;i<RAITING_COUNT;++i)
         {
             _reiting->append(_wordsData[i]);
         }
