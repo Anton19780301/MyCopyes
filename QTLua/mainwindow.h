@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <singlescene.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ public:
 
     void addToOut(const QString &text);
     void clearOut();
+    void setScene(QGraphicsScene *scene);
 
 private:
     Ui::MainWindow *ui;

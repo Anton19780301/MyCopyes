@@ -9,13 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    draw.cpp \
     luaworck.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    singlescene.cpp
 
 HEADERS += \
+    draw.h \
     luaworck.h \
-    mainwindow.h
+    mainwindow.h \
+    singlescene.h
 
 FORMS += \
     mainwindow.ui

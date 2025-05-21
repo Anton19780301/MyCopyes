@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "luaworck.h"
 #include "qdebug.h"
+#include "draw.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,8 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Aftermatch");
 
+    Draw::Instance();
+    Draw::addMainWindow(this);
 
-    LuaWorck *luaWorck = new LuaWorck(this);
+    LuaWorck *luaWorck = new LuaWorck();
+
     QObject::connect(ui->toolButton_run,&QToolButton::clicked,[=]()
     {
         luaWorck->runScript(ui->textBrowser_in->toPlainText());
@@ -19,8 +23,13 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->toolButton_clear,&QToolButton::clicked,[=]()
     {
         ui->textBrowser_in->clear();
+    });
+    QObject::connect(ui->toolButton_outClear,&QToolButton::clicked,[=]()
+    {
         ui->textBrowser_out->clear();
     });
+
+
 
 }
 
@@ -31,11 +40,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::addToOut(const QString &text)
 {
-    ui->textBrowser_out->setText(ui->textBrowser_in->toPlainText() + text);
+    ui->textBrowser_out->setText(ui->textBrowser_out->toPlainText() + text);
 }
 
 void MainWindow::clearOut()
 {
     ui->textBrowser_out->clear();
+}
+
+void MainWindow::setScene(QGraphicsScene *scene)
+{
+    ui->graphicsView->setScene(scene);
 }
 
